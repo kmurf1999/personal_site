@@ -12,7 +12,7 @@ then
 fi
 
 
-domains=(kylemerfy.com)
+domains=(kylemerfy.com www.kylemerfy.com)
 rsa_key_size=4096
 compose_file="docker-compose.prod.yml"
 echo $compose_file

@@ -1,4 +1,7 @@
 build/
 node_modules/
 
+data/certbot
+data/conf
+
 .env

@@ -8,8 +8,10 @@ services:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
-
+ 
   nginx:
+    depends_on:
+      - frontend
     image: 'nginx:latest'
     ports:
       - 80:80
@@ -29,6 +31,6 @@ services:
     # auto renewal
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-# networks:
-#   docker-network:
-#     driver: bridge
+    # networks:
+    #   docker-network:
+    #     driver: bridge
