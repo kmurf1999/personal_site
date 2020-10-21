@@ -7,11 +7,9 @@ services:
     volumes:
       - './frontend:/app'
       - '/app/node_modules'
+      - '/app/.next'
     ports:
       - 3001:3000
-    environment:
-      # enable hot reloading
-      - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     
 # networks:

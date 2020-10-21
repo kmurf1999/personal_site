@@ -5,9 +5,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.prod
     volumes:
-      # - ./frontend:/app
-      # - /app/node_modules
-      - build:/app/build
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
 
   nginx:
     image: 'nginx:latest'
@@ -15,7 +15,6 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - build:/usr/share/nginx/html
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
@@ -33,6 +32,3 @@ services:
 # networks:
 #   docker-network:
 #     driver: bridge
-
-volumes:
-  build:
