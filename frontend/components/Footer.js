@@ -8,10 +8,10 @@ const FooterStyle = styled.footer`
     text-align: center;
     .footer-social-links {
         display: flex;
-        gap: 20px;
         flex-wrap;
         justify-content: center;
         .footer-social-link {
+            margin-right: 20px;
             color: rgba(255, 255, 255, 0.45);
             &:hover {
                 color: white;

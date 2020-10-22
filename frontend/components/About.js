@@ -27,9 +27,9 @@ const AboutStyle = styled.div`
             .about-skills {
                 display: flex;
                 flex-wrap: wrap;
-                gap: 15px;
                 margin-bottom: 40px;
                 .about-skill {
+                    margin-right: 15px;
                     color: ${colors.magenta};
                     font-family: Roboto;
                     font-weight: 200;
@@ -107,6 +107,11 @@ const AboutStyle = styled.div`
             display: flex;
             flex-direction: column-reverse;
             align-items: center;
+            gap: 0px;
+            .right {
+                margin-bottom: 30px;
+                max-width: 200px;
+            }
         }
     `}
 `;
