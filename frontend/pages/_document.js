@@ -35,9 +35,10 @@ export default class SiteDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           <link rel="shortcut icon" sizes="16x16 32x32 48x48 64x64 128x128" href="/static/favicon.ico"/>
-          <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" />
-          <link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400" rel="stylesheet" />
-          <link href="https://fonts.googleapis.com/css?family=Raleway:600,500,400,300" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" defer rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Roboto:200,300,400&display=swap" defer rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Raleway:600,500,400,300&display=swap" rel="stylesheet" />
+          <link rel="preconnect" href="https://fonts.gstatic.com"/>
         </Head>
         <body>
           <Main/>

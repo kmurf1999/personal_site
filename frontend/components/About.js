@@ -181,7 +181,7 @@ const About = () => (
                 <div className="right">
                     <div className="img-wrapper">
                         <div className="picture-frame"/>
-                        <img src="/headshot.jpg"/>
+                        <img src="/headshot.webp" alt="/headshot-poor.webp"/>
                     </div>
                 </div>
             </div>
