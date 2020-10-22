@@ -55,7 +55,7 @@ const GlobalStyle = createGlobalStyle`
 
   ${respondTo.xs`
     .section-container {
-      padding: 0 20px;
+      padding: 50px 20px;
     }
     .section-header {
       justify-content: center;
