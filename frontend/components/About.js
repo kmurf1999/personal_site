@@ -2,109 +2,119 @@ import React from 'react'
 import styled from 'styled-components'
 
 import colors from '../styles/colors'
+import { respondTo } from '../styles/mixins'
 
 import { AiOutlineMail, AiFillFile, AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
 const AboutStyle = styled.div`
-.main {
-    display: grid;
-    grid-template-columns: 3fr 2fr;
-    gap: 50px;
+    .about {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 50px;
 
-    .left {
-        .about-desc {
-            font-family: Raleway;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.65);
-            font-size: 16px;
-            margin-bottom: 30px;
-            .sentence {
-                margin: 0 0 15px;
-                line-height: 1.5;
-            }
-        }
-        .about-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 40px;
-            .about-skill {
-                color: ${colors.magenta};
-                font-family: Roboto;
-                font-weight: 200;
-                font-size: 16px;
-            }
-        }
-        .about-links {
-            .about-link {
-                display: flex;
-                align-items: center;
-                color: rgba(255,255,255,0.85);
-                font-family: Roboto;
+        .left {
+            .about-desc {
+                font-family: Raleway;
                 font-weight: 300;
+                color: rgba(255, 255, 255, 0.65);
                 font-size: 16px;
-                text-decoration: none;
-                &:hover {
-                    color: rgba(255, 255, 255, 1);
-                    text-decoration: underline;
+                margin-bottom: 30px;
+                .sentence {
+                    margin: 0 0 15px;
+                    line-height: 1.5;
                 }
-                margin-bottom: 14px;
-                > svg {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 8px;
+            }
+            .about-skills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 40px;
+                .about-skill {
+                    color: ${colors.magenta};
+                    font-family: Roboto;
+                    font-weight: 200;
+                    font-size: 16px;
+                }
+            }
+            .about-links {
+                .about-link {
+                    display: flex;
+                    align-items: center;
+                    color: rgba(255,255,255,0.85);
+                    font-family: Roboto;
+                    font-weight: 300;
+                    font-size: 16px;
+                    text-decoration: none;
+                    &:hover {
+                        color: rgba(255, 255, 255, 1);
+                        text-decoration: underline;
+                    }
+                    margin-bottom: 14px;
+                    > svg {
+                        width: 20px;
+                        height: 20px;
+                        margin-right: 8px;
+                    }
+                }
+            }
+        }
+        .right {
+            max-width: 300px;
+            width: 100%;
+            .img-wrapper {
+                position: relative;
+                
+                &:before {
+                    content: '';
+                    width: 1px;
+                    margin-left: -1px;
+                    float: left;
+                    height: 0;
+                    padding-top: 100%;
+                }
+
+                &:after {
+                    content: '';
+                    display: table;
+                    clear: both;
+                }
+                
+                .picture-frame {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    top: 15px;
+                    left: 15px;
+                    border: 2px solid rgba(255, 255, 255, 0.45);
+                    border-radius: 5px;
+                }
+
+                img {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    object-fit: cover;
+                    height: 100%;
+                    width: 100%;
+                    border-radius: 5px;
                 }
             }
         }
     }
-    .right {
-        max-width: 300px;
-        .img-wrapper {
-            position: relative;
-            
-            &:before {
-                content: '';
-                width: 1px;
-                margin-left: -1px;
-                float: left;
-                height: 0;
-                padding-top: 100%;
-            }
 
-            &:after {
-                content: '';
-                display: table;
-                clear: both;
-            }
-            
-            .picture-frame {
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 15px;
-                left: 15px;
-                border: 2px solid rgba(255, 255, 255, 0.45);
-                border-radius: 5px;
-            }
-
-            img {
-                position: absolute;
-                left: 0;
-                top: 0;
-                object-fit: cover;
-                height: 100%;
-                width: 100%;
-                border-radius: 5px;
-            }
+    ${respondTo.xs`
+        .about {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
         }
-    }
-}
+    `}
 `;
 
 const links = [
     {
         name: 'Resume\'',
-        link: '/resume.pdf',
+        link: '/Resume.pdf',
         icon: <AiFillFile className="link-icon"/>
     },
     // {
@@ -140,7 +150,7 @@ const About = () => (
             <div className="section-header">
                 About Me
             </div>
-            <div className="main">
+            <div className="about">
                 <div className="left">
                     <div className="about-desc">
                         {description.map(text => (

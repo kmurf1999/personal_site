@@ -55,7 +55,7 @@ const Footer = () => {
             </div>
             <div className="footer-social-links">
                 {links.map(link => (
-                    <a className="footer-social-link" href={link.link}>
+                    <a key={link.link} className="footer-social-link" href={link.link}>
                         {link.icon}
                     </a>
                 ))}

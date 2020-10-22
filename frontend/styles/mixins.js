@@ -34,41 +34,24 @@ export function lighten(color, percent) {
   return `#${colString}`;
 }
 
-export const screens = {
-  xs: '400px',
-  sm: '600px',
-  md: '900px',
-  lg: '1200px',
-  xl: '1800px'
+export const breakpoints = {
+  xs: '480px',
+  sm: '768px',
+  md: '992px',
+  lg: '1200px'
 };
 
-export const media = {
-  xs: (...args) => css`
-    @media only screen and (max-width: ${sizes.xs / 16}em) {
-      ${css(...args)}
-    }
-  `,
-  sm: (...args) => css`
-    @media only screen and (min-width: ${sizes.sm / 16}em) {
-      ${css(...args)}
-    }
-  `,
-  md: (...args) => css`
-    @media only screen and (min-width: ${sizes.md / 16}em) {
-      ${css(...args)}
-    }
-  `,
-  lg: (...args) => css`
-    @media only screen and (min-width: ${sizes.lg / 16}em) {
-      ${css(...args)}
-    }
-  `,
-  xl: (...args) => css`
-    @media only screen and (min-width: ${sizes.xl / 16}em) {
-      ${css(...args)}
-    }
-  `
-};
+export const respondTo = Object.keys(breakpoints).reduce(
+  (accumulator, label) => {
+    accumulator[label] = (...args) => css`
+      @media (max-width: ${breakpoints[label]}) {
+        ${css(...args)};
+      }
+    `;
+    return accumulator;
+  },
+  {}
+);
 
 export const fontSize = px => `${px / 16}rem`;
 export const toEm = px => `${px / 16}em`;

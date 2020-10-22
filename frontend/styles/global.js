@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components'
 
 import reset from './reset'
+import { respondTo } from './mixins'
+
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -22,6 +24,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 0 50px;
     margin: 200px 0;
   }
@@ -44,12 +47,24 @@ const GlobalStyle = createGlobalStyle`
         content: '';
         display: block;
         position: relative;
-        width: 300px;
         height: 1px;
         margin-left: 20px;
         background: rgba(255, 255, 255, 0.25);
+        width: 300px;
     }
   }
+
+  ${respondTo.xs`
+    .section-container {
+      padding: 0 20px;
+    }
+    .section-header {
+      justify-content: center;
+      &:after {
+        display: none !important;
+      }
+    }
+  `}
 
 `
 

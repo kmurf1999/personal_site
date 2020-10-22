@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled, { keyframes } from 'styled-components'
 import colors from '../../styles/colors'
-import { darken, screens } from '../../styles/mixins'
+import { darken, respondTo } from '../../styles/mixins'
 
 import PhoneSvg from './Phone.svg'
 
@@ -71,12 +71,17 @@ Object.keys(pieces).forEach(key => {
 
 const PhoneHeaderStyle = styled.div`
     height: 100%;
-    text-align: center;
     margin: 0;
     font-family: 'Raleway';
+    position: relative;
+
+    .section {
+        height: 100%;
+        text-align: center;
+        padding-top: 40px;
+    }
 
     .header {
-        padding-top: 40px;
         margin: 0 auto;
         width: auto;
         display: table;
@@ -99,11 +104,15 @@ const PhoneHeaderStyle = styled.div`
         }
     }
     .phone {
-        height: 100%;
         max-width: 500px;
         overflow: visible;
         user-select: none;
-        margin-top: -100px;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
         > g {
             transition: all 0.5s ease !important;
         }
@@ -177,6 +186,22 @@ const PhoneHeaderStyle = styled.div`
             animation-delay: ${7 * animationTime / 8}s;
         }
     }
+
+    ${respondTo.xs`
+        .header {
+            .name {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .title {
+                font-size: 32px;
+                text-shadow: ${colors.red} 1px 2px;
+            }
+        }
+        .phone {
+            max-width: 300px;
+        }
+    `}
     
 `
 
@@ -229,16 +254,18 @@ class PhoneHeader extends Component {
     render() {
         const { inView, contactHover } = this.state;
         return (
-            <PhoneHeaderStyle inView={inView} opacity={contactHover ? 0.5 : 1 }>
-                <div className="header">
-                    <h1 className="name">
-                        KYLE MURPHY
-                    </h1>
-                    <h2 className="title">
-                        Fullstack Developer
-                    </h2>
+            <PhoneHeaderStyle className="section-container" inView={inView} opacity={contactHover ? 0.5 : 1 }>
+                <div className="section">
+                    <div className="header">
+                        <h1 className="name">
+                            KYLE MURPHY
+                        </h1>
+                        <h2 className="title">
+                            Fullstack Developer
+                        </h2>
+                    </div>
+                    <PhoneSvg className="phone"/>
                 </div>
-                <PhoneSvg className="phone"/>
             </PhoneHeaderStyle>
         );
     }
