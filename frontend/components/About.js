@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useEffect, useState } from 'react';
 import styled from 'styled-components'
 
 import colors from '../styles/colors'
@@ -149,45 +149,71 @@ const skills = [
     "React.js", "Rust", "Docker", "C/C++", "Node.js"
 ];
 
-const About = () => (
-    <AboutStyle className="section-container" id="about">
-        <div className="section">
-            <div className="section-header">
-                About Me
-            </div>
-            <div className="about">
-                <div className="left">
-                    <div className="about-desc">
-                        {description.map(text => (
-                            <p key={text} className="sentence">{text}</p>
-                        ))}
-                    </div>
-                    <div className="about-skills">
-                        {skills.map(skill => (
-                           <div className="about-skill" key={skill}>{skill}</div> 
-                        ))}
-                    </div>
-                    <ul className="about-links">
-                        {links.map(link => (
-                            <li key={link.name}>
-                                <a className="about-link" href={link.link}>
-                                    {link.icon}
-                                    {link.name}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+const About = () => {
+    const container = useRef(null);
+    const[revealed, setRevealed] = useState(false);
+    useEffect(() => {
+        window.addEventListener('scroll', reveal);
+        reveal();
+        return () => window.removeEventListener('scroll', reveal);
+    }, [container, revealed, setRevealed]);
+    const reveal = (e) => {
+        const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+        const { top } = container.current.getBoundingClientRect();
+        if (top <= windowHeight) {
+            setRevealed(true);
+            window.removeEventListener('scroll', reveal);
+            setTimeout(() => {
+                const elems = container.current.getElementsByClassName('scroll-reveal-item');
+                for (let i=0; i < elems.length; ++i) {
+                    elems[i].style.transitionDelay = '0s';
+                }
+            }, 0);
+        }
+    };
+    const scrollRevealItem = (className, revealed) => {
+        return [className, "scroll-reveal-item", revealed ? "scroll-reveal-item-visible" : "scroll-reveal-item-invisible"].join(' ');
+    }
+    return (
+        <AboutStyle className="section-container" id="about">
+            <div className="section">
+                <div className="section-header">
+                    About Me
                 </div>
-                <div className="right">
-                    <div className="img-wrapper">
-                        <div className="picture-frame"/>
-                        <img src="/headshot.webp" alt="/headshot-poor.webp"/>
+                <div ref={container} className="about scroll-reveal-container">
+                    <div className="left">
+                        <div className="about-desc scroll-reveal-stagger-container">
+                            {description.map(text => (
+                                <p key={text} className={scrollRevealItem("sentence", revealed)}>{text}</p>
+                            ))}
+                        </div>
+                        <div className={scrollRevealItem("about-skills", revealed)}>
+                            {skills.map(skill => (
+                            <div className="about-skill" key={skill}>{skill}</div> 
+                            ))}
+                        </div>
+                        <ul className="about-links scroll-reveal-stagger-container">
+                            {links.map(link => (
+                                <li key={link.name}>
+                                    <a className={scrollRevealItem("about-link", revealed)} href={link.link}>
+                                        {link.icon}
+                                        {link.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className={scrollRevealItem("right", revealed)}>
+                        <div className="img-wrapper">
+                            <div className="picture-frame"/>
+                            <img src="/headshot.webp" alt="/headshot-poor.webp"/>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-    </AboutStyle>
-);
+            </div>
+        </AboutStyle>
+    );
+}
 
 export default About;

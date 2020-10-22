@@ -74,6 +74,7 @@ const PhoneHeaderStyle = styled.section`
     padding-top: 0;
     font-family: 'Raleway';
     position: relative;
+    margin-bottom: 0;
 
     .section {
         height: 100%;

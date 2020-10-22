@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import colors from '../styles/colors'
@@ -62,10 +62,8 @@ const ProjectsStyle = styled.section`
         background: #3b4053;
         border-radius: 5px;
         padding: 30px;
-        transition: transform 0.2s ease-out;
-        cursor: pointer;
         &:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
         }
         .project-header {
             margin-bottom: 20px;
@@ -114,7 +112,7 @@ const ProjectsStyle = styled.section`
             font-family: Roboto;
             font-weight: 200;
             font-size: 14px;
-            color: rgba(255,255,255,0.35);
+            color: ${colors.magenta};
             .project-tag {
                 margin-right: 8px;
             }
@@ -123,33 +121,59 @@ const ProjectsStyle = styled.section`
 }
 `;
 
-const Projects = () => (
-    <ProjectsStyle className="section-container" id="projects">
-        <div className="section">
-            <div className="section-header">Projects</div>
-            <div className="projects-container">
-                {projects.map(p => (
-                    <div key={p.name} className="project">
-                        <div className="project-header">
-                            <span className="project-name">{p.name}</span>
-                            <span className="project-year">{p.year}</span>
+const Projects = () => {
+    const container = useRef(null);
+    const[revealed, setRevealed] = useState(false);
+    useEffect(() => {
+        window.addEventListener('scroll', reveal);
+        reveal();
+        return () => window.removeEventListener('scroll', reveal);
+    }, [container, revealed, setRevealed]);
+    const reveal = (e) => {
+        const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+        const { top } = container.current.getBoundingClientRect();
+        if (top <= windowHeight) {
+            setRevealed(true);
+            window.removeEventListener('scroll', reveal);
+            setTimeout(() => {
+                const elems = container.current.getElementsByClassName('scroll-reveal-item');
+                for (let i=0; i < elems.length; ++i) {
+                    elems[i].style.transitionDelay = '0s';
+                }
+            }, 0);
+        }
+    };
+    const scrollRevealItem = (className, revealed) => {
+        return [className, "scroll-reveal-item", revealed ? "scroll-reveal-item-visible" : "scroll-reveal-item-invisible"].join(' ');
+    }
+    return (
+        <ProjectsStyle className="section-container" id="projects">
+            <div className="section">
+                <div className="section-header">Projects</div>
+                <div ref={container} className="scroll-reveal-container scroll-reveal-stagger-container projects-container">
+                    {projects.map(p => (
+                        <div key={p.name} className={scrollRevealItem("project", revealed)}>
+                            <div className="project-header">
+                                <span className="project-name">{p.name}</span>
+                                <span className="project-year">{p.year}</span>
+                            </div>
+                            <a className="project-link" href={p.link}><FiExternalLink/></a>
+                            <ul className="project-desc">
+                            {p.desc.map(item => (
+                                <li className="project-desc-item" key={item}>{item}</li>
+                            ))}
+                            </ul>
+                            <div className="project-tags">
+                            {p.tags.map(tag => (
+                                <span className="project-tag" key={tag}>{tag}</span>
+                            ))}
+                            </div>
                         </div>
-                        <a className="project-link" href={p.link}><FiExternalLink/></a>
-                        <ul className="project-desc">
-                        {p.desc.map(item => (
-                            <li className="project-desc-item" key={item}>{item}</li>
-                        ))}
-                        </ul>
-                        <div className="project-tags">
-                        {p.tags.map(tag => (
-                            <span className="project-tag" key={tag}>{tag}</span>
-                        ))}
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    </ProjectsStyle>
-);
+        </ProjectsStyle>
+    );
+}
 
 export default Projects;
