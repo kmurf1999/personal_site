@@ -51,7 +51,7 @@ const projects = [
 }
 ];
 
-const ProjectsStyle = styled.div`
+const ProjectsStyle = styled.section`
 .projects-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -124,7 +124,7 @@ const ProjectsStyle = styled.div`
 `;
 
 const Projects = () => (
-    <ProjectsStyle className="section-container">
+    <ProjectsStyle className="section-container" id="projects">
         <div className="section">
             <div className="section-header">Projects</div>
             <div className="projects-container">

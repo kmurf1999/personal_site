@@ -25,8 +25,7 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 50px;
-    margin: 200px 0;
+    padding: 100px 50px;
   }
 
   .section {

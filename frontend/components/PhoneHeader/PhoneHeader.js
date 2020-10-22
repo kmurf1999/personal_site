@@ -69,9 +69,9 @@ Object.keys(pieces).forEach(key => {
   `;
 })
 
-const PhoneHeaderStyle = styled.div`
+const PhoneHeaderStyle = styled.section`
     height: 100%;
-    margin: 0;
+    padding-top: 0;
     font-family: 'Raleway';
     position: relative;
 
@@ -254,7 +254,7 @@ class PhoneHeader extends Component {
     render() {
         const { inView, contactHover } = this.state;
         return (
-            <PhoneHeaderStyle className="section-container" inView={inView} opacity={contactHover ? 0.5 : 1 }>
+            <PhoneHeaderStyle id="home" className="section-container" inView={inView} opacity={contactHover ? 0.5 : 1 }>
                 <div className="section">
                     <div className="header">
                         <h1 className="name">

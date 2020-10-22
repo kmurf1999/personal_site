@@ -6,7 +6,7 @@ import { respondTo } from '../styles/mixins'
 
 import { AiOutlineMail, AiFillFile, AiFillGithub, AiFillLinkedin } from 'react-icons/ai'
 
-const AboutStyle = styled.div`
+const AboutStyle = styled.section`
     .about {
         display: grid;
         grid-template-columns: 3fr 2fr;
@@ -150,7 +150,7 @@ const skills = [
 ];
 
 const About = () => (
-    <AboutStyle className="section-container">
+    <AboutStyle className="section-container" id="about">
         <div className="section">
             <div className="section-header">
                 About Me
