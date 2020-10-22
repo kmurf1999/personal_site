@@ -2,11 +2,11 @@ FROM node:10-alpine
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY package*.json /app
+COPY package*.json /app/
 
 RUN yarn install --only=prod
 
-COPY . /app
+COPY . /app/
 
 RUN yarn run build
 
