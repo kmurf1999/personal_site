@@ -89,14 +89,16 @@ const AboutStyle = styled.section`
                     border-radius: 5px;
                 }
 
-                img {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    object-fit: cover;
-                    height: 100%;
-                    width: 100%;
-                    border-radius: 5px;
+                > picture {
+                    > img {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        object-fit: cover;
+                        height: 100%;
+                        width: 100%;
+                        border-radius: 5px;
+                    }
                 }
             }
         }
@@ -206,7 +208,11 @@ const About = () => {
                     <div className={scrollRevealItem("right", revealed)}>
                         <div className="img-wrapper">
                             <div className="picture-frame"/>
-                            <img src="/headshot.webp" alt="/headshot.jpg"/>
+                            <picture>
+                                <source srcSet="/headshot.webp" type ="image/webp"/>
+                                <source srcSet="/headshot.jpg" type="image/jpeg"/>
+                                <img src="/headshot.jpg"/>
+                            </picture>
                         </div>
                     </div>
                 </div>
