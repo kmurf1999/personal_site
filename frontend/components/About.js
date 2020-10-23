@@ -206,7 +206,7 @@ const About = () => {
                     <div className={scrollRevealItem("right", revealed)}>
                         <div className="img-wrapper">
                             <div className="picture-frame"/>
-                            <img src="/headshot.webp" alt="/headshot-poor.webp"/>
+                            <img src="/headshot.webp" alt="/headshot.jpg"/>
                         </div>
                     </div>
                 </div>

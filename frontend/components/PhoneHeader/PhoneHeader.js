@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {useRef, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import colors from '../../styles/colors'
 import { darken, respondTo } from '../../styles/mixins'
@@ -23,13 +23,13 @@ const pieces = {
   'react_screen': {
     yi: 0, yf: 0, xi: -1000, xf: 0
   },
-  'Mongo': {
+  'mongo': {
     yi: 0, yf: 100, xi: 1000, xf: 0
   },
   'nodejs': {
     yi: 0, yf: 100, xi: -1000, xf: 0
   },
-  'BackScreen': {
+  'back_screen': {
     yi: 0, yf: 200, xi: 1000, xf: 0
   },
   'back_assembly': {
@@ -114,14 +114,16 @@ const PhoneHeaderStyle = styled.section`
         top: 40px;
         bottom: 0;
         margin: auto;
-        > g {
-            transition: all 0.5s ease !important;
-        }
         [data-name="contact button"] {
-            transform: translate(${pieces['contact_button'].xf}px, ${pieces['contact_button'].yf}px);
-            animation: ${props => props.inView ? animateIn['contact_button'] : animateOut['contact_button']} ${animationTime}s normal backwards ease-out;
-            opacity: ${props => props.inView ? 1 : 0};
-            animation-delay: ${8 * animationTime / 8}s;
+            opacity: ${props => props.revealed ? 1 : 0};
+            transform: translate(${
+                props => props.revealed ? pieces['contact_button'].xf : pieces['contact_button'].xi
+            }px, ${
+                props => props.revealed ? pieces['contact_button'].yf : pieces['contact_button'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .8s;
+
             cursor: pointer;
             > polygon {
               transition: fill 0.3s ease;
@@ -139,52 +141,88 @@ const PhoneHeaderStyle = styled.section`
             }
         }
         [data-name="front assembly"] {
-            transform: translate(${pieces['front_assembly'].xf}px, ${pieces['front_assembly'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['front_assembly'] : animateOut['front_assembly']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${0 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['front_assembly'].xf : pieces['front_assembly'].xi
+            }px, ${
+                props => props.revealed ? pieces['front_assembly'].yf : pieces['front_assembly'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .1s;
         }
         [data-name="ui"] {
-            transform: translate(${pieces['ui'].xf}px, ${pieces['ui'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['ui'] : animateOut['ui']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${1 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['ui'].xf : pieces['ui'].xi
+            }px, ${
+                props => props.revealed ? pieces['ui'].yf : pieces['ui'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .2s;
         }
         [data-name="react logo"] {
-            transform: translate(${pieces['react_logo'].xf}px, ${pieces['react_logo'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['react_logo'] : animateOut['react_logo']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${2 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['react_logo'].xf : pieces['react_logo'].xi
+            }px, ${
+                props => props.revealed ? pieces['react_logo'].yf : pieces['react_logo'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
         }
         [data-name="react screen"] {
-            transform: translate(${pieces['react_screen'].xf}px, ${pieces['react_screen'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['react_screen'] : animateOut['react_screen']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${3 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['react_screen'].xf : pieces['react_screen'].xi
+            }px, ${
+                props => props.revealed ? pieces['react_screen'].yf : pieces['react_screen'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .3s;
+
         }
         [data-name="mongo"] {
-            transform: translate(${pieces['Mongo'].xf}px, ${pieces['Mongo'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['Mongo'] : animateOut['Mongo']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${4 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['mongo'].xf : pieces['mongo'].xi
+            }px, ${
+                props => props.revealed ? pieces['mongo'].yf : pieces['mongo'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .4s;
+
         }
         [data-name="nodejs"] {
-            transform: translate(${pieces['nodejs'].xf}px, ${pieces['nodejs'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['nodejs'] : animateOut['nodejs']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${5 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['nodejs'].xf : pieces['nodejs'].xi
+            }px, ${
+                props => props.revealed ? pieces['nodejs'].yf : pieces['nodejs'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .5s;
+
         }
         [data-name="back screen"] {
-            transform: translate(${pieces['BackScreen'].xf}px, ${pieces['BackScreen'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['BackScreen'] : animateOut['BackScreen']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${6 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['back_screen'].xf : pieces['back_screen'].xi
+            }px, ${
+                props => props.revealed ? pieces['back_screen'].yf : pieces['back_screen'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .6s;
+
         }
         [data-name="back assembly"] {
-            transform: translate(${pieces['back_assembly'].xf}px, ${pieces['back_assembly'].yf}px);
-            opacity: ${props => props.inView ? props.opacity : 0};
-            animation: ${props => props.inView ? animateIn['back_assembly'] : animateOut['back_assembly']} ${animationTime}s normal backwards ease-out;
-            animation-delay: ${7 * animationTime / 8}s;
+            opacity: ${props => props.contactHover ? 0.5 : (props.revealed ? 1 : 0)};
+            transform: translate(${
+                props => props.revealed ? pieces['back_assembly'].xf : pieces['back_assembly'].xi
+            }px, ${
+                props => props.revealed ? pieces['back_assembly'].yf : pieces['back_assembly'].yi
+            }px);
+            transition: opacity .35s cubic-bezier(.28,.84,.44,1.02),transform .35s cubic-bezier(.28,.84,.44,1.02);
+            transition-delay: .7s;
+
         }
     }
 
@@ -206,70 +244,53 @@ const PhoneHeaderStyle = styled.section`
     
 `
 
-class PhoneHeader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            inView: true,
-            contactHover: false
-        }
-    }
-    getDist = () => {
+const PhoneHeader = () => {
+    const container = useRef(null);
+    const[revealed, setRevealed] = useState(false);
+    const[contactHover, setContactHover] = useState(false);
+    useEffect(() => {
+        const contactBtn = container.current.querySelectorAll('[data-name="contact button"]')[0];
+        contactBtn.addEventListener('mouseover', () => setContactHover(true));
+        contactBtn.addEventListener('mouseout', () => setContactHover(false));
+        contactBtn.addEventListener('click', contactClick);
+        window.addEventListener('scroll', reveal);
+        reveal();
+        return () => window.removeEventListener('scroll', reveal);
+    }, [container, revealed, setRevealed]);
+    const reveal = (e) => {
         const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-        const { top, bottom } = this.svg.getBoundingClientRect();
-        const middle = (top + bottom) / 2;
-        const dist = Math.abs(middle - (windowHeight / 2));
-        return { dist };
-    }
-    componentDidMount() {
-        if (typeof window !== 'undefined') {
-            this.svg = document.getElementsByClassName('phone')[0];
-            this.contact = document.querySelectorAll('[data-name="contact button"')[0];
-            this.contact.addEventListener('mouseover', this.contactOver);
-            this.contact.addEventListener('mouseout', this.contactOut);
-            this.contact.addEventListener('click', this.contactClick);
-            window.addEventListener('scroll', () => {
-                const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-                const { top, bottom } = this.svg.getBoundingClientRect();
-                const middle = (top + bottom) / 2;
-                const dist = Math.abs(middle - (windowHeight / 2));
-                this.setState({
-                    inView: dist < 300
+        const { top } = container.current.getBoundingClientRect();
+        if (top <= windowHeight) {
+            setRevealed(true);
+            window.removeEventListener('scroll', reveal);
+            setTimeout(() => {
+                Object.keys(pieces).map(key => {
+                    key = key.replace('_', ' ');
+                    const n = container.current.querySelectorAll(`[data-name="${key}"]`)[0];
+                    if (n) { n.style.transitionDelay = "0s"; }
                 });
-            });
+            }, 0);
         }
-    }
-    componentWillUnmount() {
-        if (this.contact) {
-            this.contact.removeEventListener('mouseover', this.contactOver);
-            this.contact.removeEventListener('mouseout', this.contactOut);
-            this.contact.removeEventListener('click', this.contactClick);
-        }
-    }
-    contactOver = () => this.setState({ contactHover: true })
-    contactOut = () => this.setState({ contactHover: false})
-    contactClick = e => {
+    };
+    const contactClick = (e) => {
         e.preventDefault();
-        window.location = 'mailto:kmurf1999@gmail.com';
+        window.location = "mailto:kmurf1999@gmail.com";
     }
-    render() {
-        const { inView, contactHover } = this.state;
-        return (
-            <PhoneHeaderStyle id="home" className="section-container" inView={inView} opacity={contactHover ? 0.5 : 1 }>
-                <div className="section">
-                    <div className="header">
-                        <h1 className="name">
-                            KYLE MURPHY
-                        </h1>
-                        <h2 className="title">
-                            Fullstack Developer
-                        </h2>
-                    </div>
-                    <PhoneSvg className="phone"/>
+    return (
+        <PhoneHeaderStyle ref={container} id="home" className="section-container" contactHover={contactHover} revealed={revealed}>
+            <div className="section">
+                <div className="header">
+                    <h1 className="name">
+                        KYLE MURPHY
+                    </h1>
+                    <h2 className="title">
+                        Fullstack Developer
+                    </h2>
                 </div>
-            </PhoneHeaderStyle>
-        );
-    }
+                <PhoneSvg className="phone"/>
+            </div>
+        </PhoneHeaderStyle>
+    );
 }
 
 export default PhoneHeader;
